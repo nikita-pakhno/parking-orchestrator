@@ -1,9 +1,4 @@
-"""Stage 1 client — RAG chatbot logic (inline, no separate service).
-
-The orchestrator embeds the chatbot logic directly rather than calling an
-external chatbot service, because the chatbot is a library (LangGraph state
-machine) rather than a long-running server.
-"""
+"""Stage 1 client — RAG chatbot logic embedded as a library."""
 import logging
 import sqlite3
 import os

@@ -1,11 +1,4 @@
-"""Load tests for each component of the pipeline.
-
-Run with: pytest tests/test_load.py -q
-
-These tests measure throughput and latency under concurrent load. They
-require all three services running (chatbot Qdrant+Ollama, admin service,
-MCP server). Set LOAD_TESTS=1 to enable them — skipped otherwise.
-"""
+"""Load tests for each pipeline component (set LOAD_TESTS=1 to run)."""
 import os
 import time
 import pytest

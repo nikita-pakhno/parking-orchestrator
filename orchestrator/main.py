@@ -1,9 +1,4 @@
-"""Interactive CLI for the parking orchestrator.
-
-Runs the unified LangGraph pipeline. The user chats with the bot, books
-reservations, and the orchestrator escalates to the admin service and
-records approved reservations via the MCP server — all in one flow.
-"""
+"""Interactive CLI for the parking orchestrator."""
 import logging
 
 from .graph import build_graph

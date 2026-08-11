@@ -1,31 +1,4 @@
-"""LangGraph orchestrator — the unified pipeline.
-
-Graph structure:
-
-      start
-        │
-        ▼
-   user_interaction  ◄──── (user asks / books / gives data)
-        │
-   ┌────┴────┐
-   │         │
-info_only   reservation_complete
-   │         │
-END     admin_approval  ◄──── (admin service decides)
-            │
-       ┌────┴────┐
-       │         │
-   rejected   approved
-       │         │
-      END    data_recording  ◄──── (MCP write_reservation)
-                 │
-                END
-
-Each node is one stage of the pipeline. The orchestrator drives the full
-flow: RAG answer → collect reservation → escalate to admin → record on
-approval. The user interaction node is re-entered as many times as needed
-to collect reservation fields.
-"""
+"""LangGraph orchestrator: user_interaction → admin_approval → data_recording."""
 import logging
 import re
 from typing import TypedDict, Optional, Dict, Any, Annotated

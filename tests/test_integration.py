@@ -1,7 +1,4 @@
-"""Integration tests — full pipeline orchestration.
-
-These require all three services running. Skipped unless INTEGRATION_TESTS=1.
-"""
+"""Integration tests — full pipeline (set INTEGRATION_TESTS=1, needs all services)."""
 import os
 import pytest
 import requests
