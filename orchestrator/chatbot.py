@@ -1,4 +1,4 @@
-"""Stage 1 client — RAG chatbot logic embedded as a library."""
+"""RAG chatbot logic embedded as a library."""
 import logging
 import sqlite3
 import os

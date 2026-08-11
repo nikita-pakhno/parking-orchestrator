@@ -1,14 +1,14 @@
-# Parking Orchestrator (Stage 4)
+# Parking Orchestrator
 
-LangGraph-based orchestration that unifies the three earlier stages into a
-single pipeline:
+LangGraph-based orchestration that unifies three components into a single
+pipeline:
 
-1. **Chatbot (RAG agent)** — answers user questions and collects reservation
-   data (Stage 1 logic, embedded as a library).
+1. **Chatbot (RAG)** — answers user questions and collects reservation
+   data (embedded as a library).
 2. **Admin approval (human-in-the-loop)** — escalates reservations to the
-   admin service and polls for the decision (Stage 2 REST API).
+   admin service and polls for the decision (REST API).
 3. **Data recording (MCP server)** — once approved, calls the MCP
-   `write_reservation` tool to persist the reservation to a file (Stage 3).
+   `write_reservation` tool to persist the reservation to a file.
 
 ## Architecture
 
@@ -24,7 +24,7 @@ single pipeline:
                          │            _escalate         │
                          │                  │           │
                          │            admin_approval    │
-                         │             (polls Stage 2)  │
+                         │             (polls admin)    │
                          │                  │           │
                          │       ┌──────────┴────────┐  │
                          │       │                   │  │
@@ -43,9 +43,9 @@ single pipeline:
 
 | Node                | Responsibility                                           |
 |---------------------|----------------------------------------------------------|
-| `user_interaction`  | RAG answer or reservation data collection (Stage 1)      |
-| `admin_approval`    | Escalate to admin service + poll for decision (Stage 2)  |
-| `data_recording`    | Call MCP `write_reservation` on approval (Stage 3)       |
+| `user_interaction`  | RAG answer or reservation data collection                |
+| `admin_approval`    | Escalate to admin service + poll for decision            |
+| `data_recording`    | Call MCP `write_reservation` on approval                |
 
 ### State
 
@@ -64,20 +64,20 @@ OrchestratorState = {
 
 The orchestrator depends on three services running:
 
-1. **Qdrant** + **Ollama** (Stage 1 chatbot backend):
+1. **Qdrant** + **Ollama** (chatbot backend):
    ```bash
    docker run -d --name qdrant -p 6333:6333 qdrant/qdrant
    ollama pull llama3.2:3b && ollama pull nomic-embed-text
-   # seed Qdrant — use the Stage 1 repo's app/seed.py
+   # seed Qdrant — use the parking-rag-chatbot repo's app/seed.py
    ```
 
-2. **Admin service** (Stage 2):
+2. **Admin service** (parking-admin-agent):
    ```bash
    cd ../parking-admin-agent
    python -m admin_service.server   # http://localhost:8001
    ```
 
-3. **MCP server** (Stage 3):
+3. **MCP server** (parking-mcp-server):
    ```bash
    cd ../parking-mcp-server
    python -m mcp_server.run          # http://localhost:8002/mcp
@@ -127,9 +127,9 @@ bot > Reservation approved and recorded! reservation saved: Nikita Pakhno | ...
 ```
 orchestrator/
   config.py           # env config
-  chatbot.py          # Stage 1 — RAG logic (Qdrant + SQL + LLM)
-  admin_client.py     # Stage 2 — admin service REST client
-  mcp_client.py       # Stage 3 — MCP write_reservation client
+  chatbot.py          # RAG logic (Qdrant + SQL + LLM)
+  admin_client.py     # admin service REST client
+  mcp_client.py       # MCP write_reservation client
   graph.py            # LangGraph orchestrator (the unified pipeline)
   main.py             # interactive CLI
 tests/
@@ -164,5 +164,4 @@ production:
 - Run `orchestrator.main` as a long-running service or wrap it in a FastAPI
   endpoint for multi-user access.
 
-Each repo has its own `docker-compose.yml` / `.github/workflows/ci.yml` for
-CI.
+Each repo has its own `.github/workflows/ci.yml` for CI.

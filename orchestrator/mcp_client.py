@@ -1,4 +1,4 @@
-"""Stage 3 client — MCP server write_reservation tool."""
+"""MCP server write_reservation tool client."""
 import asyncio
 import logging
 import requests

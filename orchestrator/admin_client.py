@@ -1,4 +1,4 @@
-"""Stage 2 client — admin service REST API."""
+"""Admin service REST API client."""
 import logging
 import requests
 from typing import Optional, Dict, Any, List

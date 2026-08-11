@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 
 INTRO = """
 ========================================
-  Parking Orchestrator (Stage 4)
+  Parking Orchestrator
   Unified: chatbot → admin → MCP file
 ========================================
 Ask about prices, hours, slots, location, rules.
